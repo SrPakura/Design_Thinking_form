@@ -15,11 +15,11 @@
             <div class="lang-selector">
                 <button onclick="setLanguage('es')">ES</button>
                 <button onclick="setLanguage('en')">EN</button>
-            </div>
+                <button onclick="setLanguage('de')">DE</button> </div>
         </header>
 
         <div id="intro-view" class="content-box">
-            <h1 id="intro-title" style="font-family: 'Oswald'; font-size: 3rem; line-height: 1; margin-bottom: 1rem;">INPUT_REQUESTED</h1>
+            <h1 id="intro-title">INPUT_REQUESTED</h1>
             <div id="intro-text" class="intro-text">
                 Bienvenido. Gracias por tomarte el tiempo.<br><br>
                 Esta es una encuesta de 8 preguntas para definir el futuro de AERKO (Open Source Fitness).<br>
@@ -33,15 +33,13 @@
         </div>
 
         <div id="loading" class="content-box hidden" style="text-align:center; padding: 4rem;">
-            <h2 class="blink">UPLOADING_DATA...</h2>
+            <h2>UPLOADING_DATA...</h2>
         </div>
 
         <div id="results-container" class="content-box hidden">
             <h2 style="font-family:'Oswald'; color:var(--acid-green); background:black; padding:10px;">UPLOAD_COMPLETE</h2>
             <p style="margin-bottom: 2rem;">Gracias por contribuir al dataset.</p>
-            
-            <div id="stats-content">
-                </div>
+            <div id="stats-content"></div>
         </div>
 
     </div>
