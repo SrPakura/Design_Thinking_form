@@ -124,5 +124,19 @@ const translations = {
     q7_title: { es: "Open Source, Local-First. ¿Probabilidad de probarla (1-10)?", en: "Probability to try (1-10)?", de: "Wahrscheinlichkeit zu testen (1-10)?"},
     q8_title: { es: "Si pudieras pedir una función mágica, ¿cuál sería?", en: "One magic feature request?", de: "Ein magisches Feature?"},
     other: { es: "Otro...", en: "Other...", de: "Andere..." },
-    view_results: { es: "[ VER GLOBAL_LOG ]", en: "[ VIEW GLOBAL_LOG ]", de: "[ LOG ANZEIGEN ]" }
+    
+// --- NUEVO: RESULTADOS TRADUCIDOS ---
+    results_title: { es: "ESTADÍSTICAS: NIVEL", en: "STATS: TRAINING LEVEL", de: "STATISTIK: NIVEAU" },
+    res_beginner: { es: "PRINCIPIANTE", en: "BEGINNER", de: "ANFÄNGER" },
+    res_inter: { es: "INTERMEDIO", en: "INTERMEDIATE", de: "FORTGESCHRITTEN" },
+    res_adv: { es: "AVANZADO", en: "ADVANCED", de: "PROFI" },
+    res_footer: { es: "BASADO EN LAS ÚLTIMAS", en: "BASED ON LAST", de: "BASIEREND AUF DEN LETZTEN" },
+    res_entries: { es: "ENTRADAS", en: "ENTRIES", de: "EINTRÄGEN" },
+    
+    // --- NUEVO: MENSAJE ESTUDIANTE ---
+    final_msg: {
+        es: "¡Gracias! Tu feedback ayuda a un estudiante a sacar su proyecto adelante.",
+        en: "Thank you! Your feedback helps a student move their project forward.",
+        de: "Danke! Dein Feedback hilft einem Studenten, sein Projekt voranzubringen."
+    }
 };
