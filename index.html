@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AERKO_ // SURVEY_PROTOCOL</title>
+    <title>AERKO_ // SURVEY</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -17,31 +15,38 @@
             <div class="lang-selector">
                 <button onclick="setLanguage('es')">ES</button>
                 <button onclick="setLanguage('en')">EN</button>
-                <button onclick="setLanguage('de')">DE</button>
             </div>
         </header>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-
-        <div id="survey-container" class="content-box">
+        <div id="intro-view" class="content-box">
+            <h1 id="intro-title" style="font-family: 'Oswald'; font-size: 3rem; line-height: 1; margin-bottom: 1rem;">INPUT_REQUESTED</h1>
+            <div id="intro-text" class="intro-text">
+                Bienvenido. Gracias por tomarte el tiempo.<br><br>
+                Esta es una encuesta de 8 preguntas para definir el futuro de AERKO (Open Source Fitness).<br>
+                Tus datos son anónimos y ayudan a construir herramientas sin "Black Boxes".
             </div>
-
-        <div id="loading" class="hidden">
-            <p class="blink">> UPLOADING_DATA...</p>
+            <button id="start-btn" class="btn-next" onclick="startSurvey()">[ INICIAR_PROTOCOLO ]</button>
         </div>
 
-        <div id="results-container" class="hidden">
-            <h2 class="section-title">GLOBAL_METRICS_LOG</h2>
-            <div id="terminal-output" class="terminal-view">
+        <div id="survey-view" class="content-box hidden">
+            <div id="survey-container"></div>
+        </div>
+
+        <div id="loading" class="content-box hidden" style="text-align:center; padding: 4rem;">
+            <h2 class="blink">UPLOADING_DATA...</h2>
+        </div>
+
+        <div id="results-container" class="content-box hidden">
+            <h2 style="font-family:'Oswald'; color:var(--acid-green); background:black; padding:10px;">UPLOAD_COMPLETE</h2>
+            <p style="margin-bottom: 2rem;">Gracias por contribuir al dataset.</p>
+            
+            <div id="stats-content">
                 </div>
-            <p class="thank-you-msg">> SESSION_TERMINATED. THANK YOU.</p>
-            <a href="https://aerko.app" class="btn-acid" style="text-align:center; display:block; margin-top:20px; text-decoration:none;">[ EXIT_TO_MAIN ]</a>
         </div>
+
     </div>
 
-    <script type="module" src="app.js"></script>
     <script src="translations.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
