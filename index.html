@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AERKO_ // SURVEY_PROTOCOL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header>
+            <div class="brand">AERKO_</div>
+            <div class="lang-selector">
+                <button onclick="setLanguage('es')">ES</button>
+                <button onclick="setLanguage('en')">EN</button>
+                <button onclick="setLanguage('de')">DE</button>
+            </div>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <div id="survey-container" class="content-box">
+            </div>
+
+        <div id="loading" class="hidden">
+            <p class="blink">> UPLOADING_DATA...</p>
+        </div>
+
+        <div id="results-container" class="hidden">
+            <h2 class="section-title">GLOBAL_METRICS_LOG</h2>
+            <div id="terminal-output" class="terminal-view">
+                </div>
+            <p class="thank-you-msg">> SESSION_TERMINATED. THANK YOU.</p>
+            <a href="https://aerko.app" class="btn-acid" style="text-align:center; display:block; margin-top:20px; text-decoration:none;">[ EXIT_TO_MAIN ]</a>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+    <script src="translations.js"></script>
+</body>
+</html>
