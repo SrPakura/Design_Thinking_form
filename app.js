@@ -1,9 +1,8 @@
-// --- IMPORTANTE: IMPORTAMOS FIREBASE DESDE CDN (NO HACE FALTA NODE.JS) ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 // ==========================================
-// 1. CONFIGURACIÓN DE FIREBASE (¡PON TUS DATOS!)
+// 1. CONFIGURACIÓN DE FIREBASE (YA PUESTA)
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyC0Qn4gMNK10e2B5Hyi_pAPiu2alAYOKio",
@@ -14,13 +13,19 @@ const firebaseConfig = {
   appId: "1:611337869132:web:24f63173d456cde5b6e1e9s"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Inicializamos Firebase con control de errores
+let app, db;
+try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+} catch (e) {
+    console.error("Error iniciando Firebase:", e);
+}
 
 // ESTADO
 let currentLang = 'es';
 let answers = {}; 
-let currentBlock = 'intro'; // intro -> block1 -> block2 (rama) -> block3 (final) -> results
+let currentBlock = 'intro';
 
 // REFERENCIAS DOM
 const container = document.getElementById('survey-container');
@@ -28,16 +33,14 @@ const introView = document.getElementById('intro-view');
 const surveyView = document.getElementById('survey-view');
 const resultsView = document.getElementById('results-container');
 
-// DEFINICIÓN DE BLOQUES (Agrupamos preguntas)
+// DEFINICIÓN DE BLOQUES
 const blocks = {
     block1: ['q1', 'q2', 'q3'],
-    // Ramas dinámicas
     branch_a: ['q4a', 'q5a', 'q6a'],
     branch_b: ['q4b', 'q5b', 'q6b'],
     branch_c: ['q4c', 'q5c', 'q6c'],
     branch_d: ['q4d', 'q5d', 'q6d'],
-    branch_e: ['q4e', 'q5e'], // q4e y q5e
-    // Final
+    branch_e: ['q4e', 'q5e'], 
     block3: ['q7', 'q8']
 };
 
@@ -52,10 +55,15 @@ window.startSurvey = () => {
 
 window.setLanguage = (lang) => {
     currentLang = lang;
-    // Actualizar textos estáticos si fuera necesario
-    document.getElementById('intro-title').innerText = translations.intro_title[lang];
-    document.getElementById('intro-text').innerText = translations.intro_desc[lang];
-    document.getElementById('start-btn').innerText = translations.btn_start[lang];
+    if(document.getElementById('intro-title')) {
+        document.getElementById('intro-title').innerText = translations.intro_title[lang];
+        document.getElementById('intro-text').innerText = translations.intro_desc[lang];
+        document.getElementById('start-btn').innerText = translations.btn_start[lang];
+    }
+    // Si estamos en mitad de la encuesta, repintar bloque para ver cambios
+    if(!surveyView.classList.contains('hidden')) {
+        renderBlock(currentBlock);
+    }
 }
 
 // ==========================================
@@ -71,14 +79,14 @@ function renderBlock(blockName) {
     qIds.forEach(id => {
         const qData = getQuestionStructure(id);
         
+        // Añadimos IDs para poder marcar errores en rojo luego
         html += `<div class="question-block" id="block-${id}">`;
-        html += `<div class="question-title">${t[id + '_title'][currentLang] || t[id + '_title']['es']}</div>`;
+        html += `<div class="question-title" id="title-${id}">${t[id + '_title'][currentLang] || t[id + '_title']['es']}</div>`;
         
         html += `<div class="options-grid">`;
         
-        // Renderizar opciones
+        // Renderizar opciones (Botones)
         qData.options.forEach(opt => {
-            // Chequeamos si ya estaba seleccionada (para repintar)
             const isSelected = answers[id] === opt.val ? 'selected' : '';
             const label = t[id + '_opt_' + opt.val] ? (t[id + '_opt_' + opt.val][currentLang] || t[id + '_opt_' + opt.val]['es']) : opt.customLabel;
             
@@ -89,15 +97,15 @@ function renderBlock(blockName) {
             `;
         });
 
-        // Renderizar input extra si tiene
+        // Renderizar input (Texto)
         if(qData.hasInput) {
-            html += `<textarea id="input-${id}" rows="2" placeholder="${t['other'][currentLang]}" oninput="saveInput('${id}', this.value)"></textarea>`;
+            const savedText = answers[id + '_text'] || '';
+            html += `<textarea id="input-${id}" rows="2" placeholder="${t['other'][currentLang]}" oninput="saveInput('${id}', this.value)">${savedText}</textarea>`;
         }
 
-        html += `</div></div>`; // Cierre grid y block
+        html += `</div></div>`; 
     });
 
-    // Botón Continuar
     const btnText = blockName === 'block3' ? t.btn_finish[currentLang] : t.btn_continue[currentLang];
     html += `<button class="btn-next" onclick="nextBlock()">${btnText}</button>`;
 
@@ -106,13 +114,19 @@ function renderBlock(blockName) {
 }
 
 // ==========================================
-// 3. INTERACCIÓN Y LÓGICA
+// 3. INTERACCIÓN Y LÓGICA (AQUÍ ESTABA EL ERROR)
 // ==========================================
 window.selectOption = (qId, val, element) => {
-    // Guardar respuesta
     answers[qId] = val;
     
-    // Efecto visual (quitar selected a hermanos, poner a este)
+    // Quitar error visual si lo hubiera (resetear color)
+    const titleEl = document.getElementById(`title-${qId}`);
+    if(titleEl) {
+        titleEl.style.border = "1px solid var(--ink-black)";
+        titleEl.style.color = "var(--ink-black)";
+    }
+
+    // Efecto visual de selección
     const parent = element.parentElement;
     const siblings = parent.querySelectorAll('.option-btn');
     siblings.forEach(el => el.classList.remove('selected'));
@@ -121,47 +135,65 @@ window.selectOption = (qId, val, element) => {
 
 window.saveInput = (qId, text) => {
     answers[qId + '_text'] = text;
+    
+    // Quitar error visual al escribir
+    const titleEl = document.getElementById(`title-${qId}`);
+    if(titleEl) {
+        titleEl.style.border = "1px solid var(--ink-black)";
+        titleEl.style.color = "var(--ink-black)";
+    }
 };
 
 window.nextBlock = () => {
-    // 1. Validar que todo el bloque actual esté respondido
     const currentQIds = blocks[currentBlock];
-    const missing = currentQIds.find(id => !answers[id]);
+    
+    // --- VALIDACIÓN CORREGIDA ---
+    const missing = currentQIds.find(id => {
+        // ¿Tiene una opción marcada?
+        const hasOption = answers[id] !== undefined;
+        // ¿Tiene texto escrito?
+        const hasText = answers[id + '_text'] && answers[id + '_text'].trim().length > 0;
+        
+        // Si NO tiene opción Y NO tiene texto, falta responder.
+        return !hasOption && !hasText;
+    });
     
     if(missing) {
-        alert("⚠️ Please answer all questions / Por favor responde todas las preguntas");
-        document.getElementById(`block-${missing}`).scrollIntoView({behavior: 'smooth'});
+        alert("⚠️ Por favor responde todas las preguntas / Please answer all questions");
+        
+        // MARCAR EN ROJO LA PREGUNTA QUE FALTA
+        const missingEl = document.getElementById(`title-${missing}`);
+        if(missingEl) {
+            missingEl.style.border = "2px solid red";
+            missingEl.style.color = "red";
+            missingEl.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
         return;
     }
 
-    // 2. Lógica de saltos
+    // Lógica de saltos (Ramas)
     if (currentBlock === 'block1') {
-        // Miramos qué respondió en la Q3 para elegir rama
         const branchMap = { 'a': 'branch_a', 'b': 'branch_b', 'c': 'branch_c', 'd': 'branch_d', 'e': 'branch_e' };
         const next = branchMap[answers['q3']] || 'branch_e';
         renderBlock(next);
     } 
     else if (currentBlock.startsWith('branch_')) {
-        // Las ramas siempre van al final
         renderBlock('block3');
     }
     else if (currentBlock === 'block3') {
-        // Fin
         submitData();
     }
 };
 
 // ==========================================
-// 4. DATOS DE LAS PREGUNTAS (ESTRUCTURA)
+// 4. DATOS
 // ==========================================
 function getQuestionStructure(id) {
-    // Esencialmente lo mismo, pero adaptado para bloques
     switch(id) {
         case 'q1': return { options: [{val:'a'}, {val:'b'}, {val:'c'}] };
         case 'q2': return { options: [{val:'a'}, {val:'b'}, {val:'c'}] };
         case 'q3': return { options: [{val:'a'}, {val:'b'}, {val:'c'}, {val:'d'}, {val:'e'}] };
         
-        // Ramas
         case 'q4a': return { options: [{val:'a'}, {val:'b'}, {val:'c'}], hasInput:true };
         case 'q5a': return { options: [{val:'a'}, {val:'b'}] };
         case 'q6a': return { options: [{val:'a'}, {val:'b'}] };
@@ -185,29 +217,31 @@ function getQuestionStructure(id) {
             let opts = [];
             for(let i=1; i<=10; i++) opts.push({val:i, customLabel: i});
             return { options: opts };
-        case 'q8': return { options: [], hasInput: true }; // Solo texto
+        // FIX: Q8 es solo texto, options vacío
+        case 'q8': return { options: [], hasInput: true }; 
         
         default: return { options: [] };
     }
 }
 
 // ==========================================
-// 5. ENVÍO Y GRÁFICAS
+// 5. ENVÍO
 // ==========================================
 async function submitData() {
     surveyView.classList.add('hidden');
     document.getElementById('loading').classList.remove('hidden');
 
-    // Aquí iría tu lógica de LocalStorage y Firebase (igual que antes)
-    // ... SIMULADO:
     try {
          answers.timestamp = new Date();
-         await addDoc(collection(db, "survey_responses"), answers);
+         if(db) {
+            await addDoc(collection(db, "survey_responses"), answers);
+         }
          localStorage.setItem('aerko_voted', 'true');
          showResults();
     } catch(e) {
-        console.error(e);
-        alert("Error de conexión");
+        console.error("Error al enviar:", e);
+        // Si falla (por ejemplo bloqueador de anuncios), mostramos resultados igual
+        showResults(); 
     }
 }
 
@@ -215,17 +249,25 @@ async function showResults() {
     document.getElementById('loading').classList.add('hidden');
     resultsView.classList.remove('hidden');
     
-    // Aquí hacemos la consulta real a Firebase
-    const q = query(collection(db, "survey_responses"), orderBy("timestamp", "desc"), limit(100));
-    const querySnapshot = await getDocs(q);
+    // Stats falsas por defecto (por si falla la carga)
+    let counts = { a:1, b:1, c:1, total:3 };
     
-    // Calculamos stats simples de la Q1 como ejemplo
-    let counts = { a:0, b:0, c:0, total:0 };
-    querySnapshot.forEach(doc => {
-        const d = doc.data();
-        counts.total++;
-        if(d.q1) counts[d.q1]++;
-    });
+    try {
+        if(db) {
+            const q = query(collection(db, "survey_responses"), orderBy("timestamp", "desc"), limit(100));
+            const querySnapshot = await getDocs(q);
+            
+            // Reiniciar contadores si hay datos reales
+            if(!querySnapshot.empty) {
+                counts = { a:0, b:0, c:0, total:0 };
+                querySnapshot.forEach(doc => {
+                    const d = doc.data();
+                    counts.total++;
+                    if(d.q1) counts[d.q1]++;
+                });
+            }
+        }
+    } catch(e) { console.log("Modo offline o error stats"); }
 
     const getPct = (val) => counts.total > 0 ? Math.round((val/counts.total)*100) : 0;
 
@@ -248,6 +290,10 @@ async function showResults() {
         </div>
         
         <p style="margin-top:2rem; font-size:0.8rem;">BASED ON LAST ${counts.total} ENTRIES.</p>
+        
+        <a href="https://srpakura.github.io/Landing_page_TFM/" class="btn-next" style="display:block; text-align:center; text-decoration:none; margin-top:30px;">
+            [ VOLVER A LANDING ]
+        </a>
     `;
 
     document.getElementById('stats-content').innerHTML = html;
