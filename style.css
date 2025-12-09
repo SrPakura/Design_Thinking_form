@@ -3,7 +3,7 @@
     --safety-orange: #FF4D00;
     --ink-black: #050505;
     --paper-white: #F2F2F2;
-    --grid-line: #000000;
+    --concrete-gray: #B0B0B0;
 }
 
 * { box-sizing: border-box; }
@@ -17,7 +17,6 @@ body {
     justify-content: center;
     min-height: 100vh;
     padding: 20px;
-    /* Trama de fondo sutil tipo "papel milimetrado" */
     background-image: radial-gradient(var(--concrete-gray) 1px, transparent 1px);
     background-size: 20px 20px;
 }
@@ -28,17 +27,17 @@ body {
     background: white;
     border: 3px solid var(--ink-black);
     box-shadow: 8px 8px 0px var(--ink-black);
-    padding: 0;
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden; /* Evita desbordamiento horizontal */
 }
 
-/* HEADER CON ESTILO AERKO */
+/* HEADER */
 header {
     background: var(--ink-black);
     color: var(--acid-green);
-    padding: 1.5rem;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,10 +46,14 @@ header {
 
 .brand {
     font-family: 'Oswald', sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: -1px;
+}
+
+.lang-selector {
+    display: flex;
+    gap: 5px;
 }
 
 .lang-selector button {
@@ -60,24 +63,37 @@ header {
     cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
     font-weight: bold;
-    padding: 5px 10px;
-    margin-left: 5px;
-    transition: all 0.2s;
+    padding: 5px;
+    font-size: 0.8rem;
 }
-.lang-selector button:hover { 
-    background: var(--acid-green); 
-    color: var(--ink-black);
-}
+.lang-selector button:hover { background: var(--acid-green); color: var(--ink-black); }
 
 /* CONTENIDO */
 .content-box {
     padding: 2rem;
 }
 
-/* INTRODUCCIÓN */
+/* --- FIX PARA MÓVIL: Padding reducido --- */
+@media (max-width: 500px) {
+    body { padding: 10px; }
+    .content-box { padding: 1.2rem; }
+    .question-title { font-size: 1.1rem; }
+}
+
+/* --- FIX TÍTULO GIGANTE --- */
+#intro-title {
+    font-family: 'Oswald';
+    line-height: 1;
+    margin-bottom: 1rem;
+    /* Fuente responsive: Mínimo 2rem, ideal 10% ancho pantalla, Máximo 3.5rem */
+    font-size: clamp(2.5rem, 10vw, 3.5rem); 
+    word-break: break-word; /* Si es muy largo, rompe la palabra */
+    hyphens: auto;
+}
+
 .intro-text {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.5;
     margin-bottom: 2rem;
     border-left: 4px solid var(--safety-orange);
     padding-left: 1rem;
@@ -85,9 +101,9 @@ header {
     padding: 1rem;
 }
 
-/* PREGUNTAS (BLOQUES) */
+/* PREGUNTAS */
 .question-block {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     border-bottom: 1px dashed var(--ink-black);
     padding-bottom: 2rem;
 }
@@ -95,7 +111,7 @@ header {
 
 .question-title {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     margin-bottom: 1rem;
     text-transform: uppercase;
     background: var(--paper-white);
@@ -104,13 +120,8 @@ header {
     border: 1px solid var(--ink-black);
 }
 
-.options-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+.options-grid { display: flex; flex-direction: column; gap: 10px; }
 
-/* BOTONES DE OPCIÓN */
 .option-btn {
     background: white;
     border: 2px solid var(--ink-black);
@@ -118,74 +129,39 @@ header {
     text-align: left;
     font-family: 'JetBrains Mono', monospace;
     cursor: pointer;
-    transition: all 0.1s;
-    font-size: 0.95rem;
-    position: relative;
+    font-size: 0.9rem;
+    transition: transform 0.1s;
 }
 
-.option-btn:hover {
-    background: #f0f0f0;
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px var(--ink-black);
-}
+.option-btn:active { transform: translate(2px, 2px); }
 
-/* ESTADO SELECCIONADO (VIVO) */
 .option-btn.selected {
     background: var(--acid-green);
     font-weight: bold;
     box-shadow: 4px 4px 0px var(--ink-black);
     transform: translate(-2px, -2px);
 }
-.option-btn.selected::before {
-    content: "[X] ";
-}
+.option-btn.selected::before { content: "[X] "; }
 
-/* BOTÓN DE CONTINUAR */
 .btn-next {
     background: var(--ink-black);
     color: var(--acid-green);
     width: 100%;
-    padding: 1.2rem;
+    padding: 1rem;
     font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
     margin-top: 1rem;
     border-top: 3px solid var(--ink-black);
-    transition: background 0.3s;
-}
-.btn-next:hover {
-    background: var(--safety-orange);
-    color: white;
-}
-.btn-next:disabled {
-    background: var(--concrete-gray);
-    color: #888;
-    cursor: not-allowed;
-}
-
-/* GRÁFICAS (STATS NUEVAS) */
-.stat-item { margin-bottom: 1.5rem; }
-.stat-label { font-size: 0.8rem; margin-bottom: 5px; font-weight: bold; }
-.stat-bar-bg {
-    width: 100%;
-    background: #ddd;
-    height: 25px;
-    border: 2px solid var(--ink-black);
-}
-.stat-bar-fill {
-    height: 100%;
-    background: var(--acid-green);
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    width: 0%; /* Se anima con JS */
-    transition: width 1s ease-out;
 }
 
 /* UTILS */
 .hidden { display: none !important; }
-textarea { width: 100%; padding: 10px; border: 2px solid var(--ink-black); font-family: inherit; }
+textarea { width: 100%; padding: 10px; border: 2px solid var(--ink-black); font-family: inherit; margin-top: 10px;}
+
+/* GRÁFICAS SIMPLES */
+.stat-item { margin-bottom: 1rem; }
+.stat-bar-bg { width: 100%; background: #ddd; height: 20px; border: 2px solid var(--ink-black); }
+.stat-bar-fill { height: 100%; background: var(--acid-green); }
