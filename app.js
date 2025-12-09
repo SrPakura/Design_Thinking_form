@@ -54,13 +54,22 @@ window.startSurvey = () => {
 
 window.setLanguage = (lang) => {
     currentLang = lang;
+    
+    // 1. Actualizar Intro
     if(document.getElementById('intro-title')) {
         document.getElementById('intro-title').innerText = translations.intro_title[lang];
         document.getElementById('intro-text').innerText = translations.intro_desc[lang];
         document.getElementById('start-btn').innerText = translations.btn_start[lang];
     }
+    
+    // 2. Si estamos en preguntas, repintar bloque
     if(!surveyView.classList.contains('hidden')) {
         renderBlock(currentBlock);
+    }
+    
+    // 3. FIX: Si estamos en resultados, repintar resultados
+    if(!resultsView.classList.contains('hidden')) {
+        showResults();
     }
 }
 
@@ -75,7 +84,7 @@ function renderBlock(blockName) {
         
         html += `<div class="question-block" id="block-${id}">`;
         html += `<div class="question-title" id="title-${id}">${t[id + '_title'][currentLang] || t[id + '_title']['es']}</div>`;
-        html += `<div class="options-grid">`;
+        html += `<div class="options-grid" id="grid-${id}">`; // Añadido ID al grid para buscar fácil
         
         qData.options.forEach(opt => {
             const isSelected = answers[id] === opt.val ? 'selected' : '';
@@ -98,20 +107,49 @@ function renderBlock(blockName) {
     window.scrollTo(0,0);
 }
 
+// ==========================================
+// INTERACCIÓN CORREGIDA (MUTUAMENTE EXCLUYENTE)
+// ==========================================
 window.selectOption = (qId, val, element) => {
+    // 1. Guardar opción
     answers[qId] = val;
+    
+    // 2. BORRAR TEXTO (Si existiera)
+    // Borramos del objeto de respuestas
+    delete answers[qId + '_text'];
+    // Borramos visualmente el textarea
+    const inputEl = document.getElementById(`input-${qId}`);
+    if(inputEl) inputEl.value = "";
+
+    // 3. Quitar error visual
     const titleEl = document.getElementById(`title-${qId}`);
     if(titleEl) {
         titleEl.style.border = "1px solid var(--ink-black)";
         titleEl.style.color = "var(--ink-black)";
     }
+    
+    // 4. Efecto visual botones
     const parent = element.parentElement;
     parent.querySelectorAll('.option-btn').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
 };
 
 window.saveInput = (qId, text) => {
+    // 1. Guardar texto
     answers[qId + '_text'] = text;
+    
+    // 2. Si hay texto, BORRAR OPCIÓN SELECCIONADA
+    if(text.length > 0) {
+        delete answers[qId]; // Borramos la selección "a", "b", etc. del objeto
+        
+        // Quitar clase visual .selected de los botones
+        const grid = document.getElementById(`grid-${qId}`);
+        if(grid) {
+            grid.querySelectorAll('.option-btn').forEach(el => el.classList.remove('selected'));
+        }
+    }
+
+    // 3. Quitar error visual
     const titleEl = document.getElementById(`title-${qId}`);
     if(titleEl) {
         titleEl.style.border = "1px solid var(--ink-black)";
@@ -140,7 +178,9 @@ window.nextBlock = () => {
 
     if (currentBlock === 'block1') {
         const branchMap = { 'a': 'branch_a', 'b': 'branch_b', 'c': 'branch_c', 'd': 'branch_d', 'e': 'branch_e' };
-        const next = branchMap[answers['q3']] || 'branch_e';
+        // Si han escrito texto en vez de elegir opcion en la Q3, mandamos a E por defecto
+        const val = answers['q3'] || 'e';
+        const next = branchMap[val] || 'branch_e';
         renderBlock(next);
     } 
     else if (currentBlock.startsWith('branch_')) {
@@ -185,12 +225,12 @@ async function submitData() {
 }
 
 // ==========================================
-// RESULTADOS ACTUALIZADOS (TRADUCIDOS + MENSAJE)
+// RESULTADOS
 // ==========================================
 async function showResults() {
     document.getElementById('loading').classList.add('hidden');
     resultsView.classList.remove('hidden');
-    const t = translations; // Referencia corta
+    const t = translations; 
     
     let counts = { a:1, b:1, c:1, total:3 };
     
@@ -211,7 +251,6 @@ async function showResults() {
 
     const getPct = (val) => counts.total > 0 ? Math.round((val/counts.total)*100) : 0;
 
-    // HTML TRADUCIDO
     const html = `
         <h3 class="question-title">${t.results_title[currentLang]}</h3>
         
