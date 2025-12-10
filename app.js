@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase
 import { getFirestore, collection, addDoc, getDocs, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 // ==========================================
-// 1. CONFIGURACIÓN (TUS CLAVES REALES)
+// 1. CONFIGURACIÓN
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyC0Qn4gMNK10e2B5Hyi_pAPiu2alAYOKio",
@@ -67,7 +67,7 @@ window.setLanguage = (lang) => {
         renderBlock(currentBlock);
     }
     
-    // 3. FIX: Si estamos en resultados, repintar resultados
+    // 3. Si estamos en resultados, repintar resultados
     if(!resultsView.classList.contains('hidden')) {
         showResults();
     }
@@ -84,7 +84,7 @@ function renderBlock(blockName) {
         
         html += `<div class="question-block" id="block-${id}">`;
         html += `<div class="question-title" id="title-${id}">${t[id + '_title'][currentLang] || t[id + '_title']['es']}</div>`;
-        html += `<div class="options-grid" id="grid-${id}">`; // Añadido ID al grid para buscar fácil
+        html += `<div class="options-grid" id="grid-${id}">`; 
         
         qData.options.forEach(opt => {
             const isSelected = answers[id] === opt.val ? 'selected' : '';
@@ -108,48 +108,40 @@ function renderBlock(blockName) {
 }
 
 // ==========================================
-// INTERACCIÓN CORREGIDA (MUTUAMENTE EXCLUYENTE)
+// INTERACCIÓN
 // ==========================================
 window.selectOption = (qId, val, element) => {
-    // 1. Guardar opción
     answers[qId] = val;
     
-    // 2. BORRAR TEXTO (Si existiera)
-    // Borramos del objeto de respuestas
+    // Borrar texto si elige opción
     delete answers[qId + '_text'];
-    // Borramos visualmente el textarea
     const inputEl = document.getElementById(`input-${qId}`);
     if(inputEl) inputEl.value = "";
 
-    // 3. Quitar error visual
+    // Quitar error visual
     const titleEl = document.getElementById(`title-${qId}`);
     if(titleEl) {
         titleEl.style.border = "1px solid var(--ink-black)";
         titleEl.style.color = "var(--ink-black)";
     }
     
-    // 4. Efecto visual botones
     const parent = element.parentElement;
     parent.querySelectorAll('.option-btn').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
 };
 
 window.saveInput = (qId, text) => {
-    // 1. Guardar texto
     answers[qId + '_text'] = text;
     
-    // 2. Si hay texto, BORRAR OPCIÓN SELECCIONADA
+    // Si escribe, borrar opción seleccionada
     if(text.length > 0) {
-        delete answers[qId]; // Borramos la selección "a", "b", etc. del objeto
-        
-        // Quitar clase visual .selected de los botones
+        delete answers[qId]; 
         const grid = document.getElementById(`grid-${qId}`);
         if(grid) {
             grid.querySelectorAll('.option-btn').forEach(el => el.classList.remove('selected'));
         }
     }
 
-    // 3. Quitar error visual
     const titleEl = document.getElementById(`title-${qId}`);
     if(titleEl) {
         titleEl.style.border = "1px solid var(--ink-black)";
@@ -178,7 +170,6 @@ window.nextBlock = () => {
 
     if (currentBlock === 'block1') {
         const branchMap = { 'a': 'branch_a', 'b': 'branch_b', 'c': 'branch_c', 'd': 'branch_d', 'e': 'branch_e' };
-        // Si han escrito texto en vez de elegir opcion en la Q3, mandamos a E por defecto
         const val = answers['q3'] || 'e';
         const next = branchMap[val] || 'branch_e';
         renderBlock(next);
@@ -216,7 +207,10 @@ async function submitData() {
     try {
          answers.timestamp = new Date();
          if(db) await addDoc(collection(db, "survey_responses"), answers);
+         
+         // --- AQUÍ SE GUARDA LA "COOKIE" ---
          localStorage.setItem('aerko_voted', 'true');
+         
          showResults();
     } catch(e) {
         console.error(e);
@@ -224,9 +218,6 @@ async function submitData() {
     }
 }
 
-// ==========================================
-// RESULTADOS
-// ==========================================
 async function showResults() {
     document.getElementById('loading').classList.add('hidden');
     resultsView.classList.remove('hidden');
@@ -281,4 +272,15 @@ async function showResults() {
     `;
 
     document.getElementById('stats-content').innerHTML = html;
+}
+
+// ==========================================
+// 6. INICIO AUTOMÁTICO (EL PORTERO)
+// ==========================================
+// Comprobamos si ya votó nada más cargar el script
+if(localStorage.getItem('aerko_voted') === 'true') {
+    // Si ya votó, ocultamos Intro y mostramos resultados directos
+    introView.classList.add('hidden');
+    resultsView.classList.remove('hidden');
+    showResults(); // Carga las stats
 }
