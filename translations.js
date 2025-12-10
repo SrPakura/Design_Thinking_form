@@ -1,10 +1,14 @@
 const translations = {
     // --- TEXTOS UI ---
-    intro_title: { es: "INPUT_REQUESTED", en: "INPUT_REQUESTED", de: "INPUT_REQUESTED" },
+    intro_title: { 
+        es: ">_ HOLA_MUNDO", 
+        en: ">_ HELLO_WORLD", 
+        de: ">_ HALLO_WELT" 
+    },
     intro_desc: { 
-        es: "Bienvenido. Gracias por tomarte el tiempo.\nEsta es una encuesta de 8 preguntas para definir el futuro de AERKO.\nTus datos son anónimos.",
-        en: "Welcome. Thank you for your time.\nThis is an 8-question survey to define the future of AERKO.\nYour data is anonymous.",
-        de: "Willkommen. Danke für deine Zeit.\nDies ist eine Umfrage mit 8 Fragen, um die Zukunft von AERKO zu definieren.\nDeine Daten sind anonym."
+        es: "Bienvenido a esta encuesta sobre Nutrición, Entreno y Progreso.\n\nTu participación ayuda a un estudiante de 19 años cuyo profesor le explota como si fuera un robot 🤖.\n\nTe llevará 2 minutos completarla. Tus datos son 100% anónimos.\n\nGracias <3",
+        en: "Welcome to this survey on Nutrition, Training, and Progress.\n\nYou are helping a 19-year-old student whose teacher works him like a robot 🤖.\n\nIt takes just 2 minutes to complete. Your data is 100% anonymous.\n\nThanks <3",
+        de: "Willkommen zu dieser Umfrage über Ernährung, Training und Fortschritt.\n\nDu hilfst einem 19-jährigen Studenten, der von seinem Lehrer wie ein Roboter ausgebeutet wird 🤖.\n\nDauert nur 2 Minuten. Deine Daten sind 100% anonym.\n\nDanke <3"
     },
     btn_start: { es: "[ INICIAR_PROTOCOLO ]", en: "[ INITIATE_PROTOCOL ]", de: "[ PROTOKOLL STARTEN ]" },
     btn_continue: { es: "CONTINUAR >", en: "CONTINUE >", de: "WEITER >" },
@@ -114,3 +118,4 @@ const translations = {
         de: "Danke! Dein Feedback hilft einem Studenten, sein Projekt voranzubringen."
     }
 };
+
