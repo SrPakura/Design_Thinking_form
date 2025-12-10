@@ -22,7 +22,9 @@ try {
 }
 
 // ESTADO
-let currentLang = 'es';
+// ESTADO: Detectar idioma (coge las 2 primeras letras: 'es', 'en', 'de')
+const navLang = (navigator.language || 'en').slice(0,2);
+let currentLang = ['es', 'de'].includes(navLang) ? navLang : 'en';
 let answers = {}; 
 let currentBlock = 'intro';
 
@@ -284,3 +286,4 @@ if(localStorage.getItem('aerko_voted') === 'true') {
     resultsView.classList.remove('hidden');
     showResults(); // Carga las stats
 }
+
