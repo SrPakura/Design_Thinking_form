@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase
 import { getFirestore, collection, addDoc, getDocs, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 // ==========================================
-// 1. CONFIGURACIÓN
+// 1. CONFIGURACIÓN (TUS CLAVES REALES)
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyC0Qn4gMNK10e2B5Hyi_pAPiu2alAYOKio",
@@ -21,10 +21,14 @@ try {
     console.error("Firebase init error:", e);
 }
 
-// ESTADO
-// ESTADO: Detectar idioma (coge las 2 primeras letras: 'es', 'en', 'de')
-const navLang = (navigator.language || 'en').slice(0,2);
-let currentLang = ['es', 'de'].includes(navLang) ? navLang : 'en';
+// ==========================================
+// 2. ESTADO E IDIOMA AUTOMÁTICO
+// ==========================================
+// Detecta idioma del navegador (primeras 2 letras: 'es', 'en', 'de')
+const userLang = (navigator.language || 'en').slice(0, 2);
+// Si es 'es' o 'de' lo usamos, si no, forzamos inglés ('en')
+let currentLang = ['es', 'de'].includes(userLang) ? userLang : 'en';
+
 let answers = {}; 
 let currentBlock = 'intro';
 
@@ -110,7 +114,7 @@ function renderBlock(blockName) {
 }
 
 // ==========================================
-// INTERACCIÓN
+// INTERACCIÓN (MUTUAMENTE EXCLUYENTE)
 // ==========================================
 window.selectOption = (qId, val, element) => {
     answers[qId] = val;
@@ -172,6 +176,7 @@ window.nextBlock = () => {
 
     if (currentBlock === 'block1') {
         const branchMap = { 'a': 'branch_a', 'b': 'branch_b', 'c': 'branch_c', 'd': 'branch_d', 'e': 'branch_e' };
+        // Si han escrito texto en vez de elegir opcion en la Q3, mandamos a E por defecto
         const val = answers['q3'] || 'e';
         const next = branchMap[val] || 'branch_e';
         renderBlock(next);
@@ -209,10 +214,7 @@ async function submitData() {
     try {
          answers.timestamp = new Date();
          if(db) await addDoc(collection(db, "survey_responses"), answers);
-         
-         // --- AQUÍ SE GUARDA LA "COOKIE" ---
          localStorage.setItem('aerko_voted', 'true');
-         
          showResults();
     } catch(e) {
         console.error(e);
@@ -220,6 +222,9 @@ async function submitData() {
     }
 }
 
+// ==========================================
+// RESULTADOS
+// ==========================================
 async function showResults() {
     document.getElementById('loading').classList.add('hidden');
     resultsView.classList.remove('hidden');
@@ -277,13 +282,14 @@ async function showResults() {
 }
 
 // ==========================================
-// 6. INICIO AUTOMÁTICO (EL PORTERO)
+// 6. INICIO AUTOMÁTICO (IDIOMA + PORTERO)
 // ==========================================
-// Comprobamos si ya votó nada más cargar el script
+// 1. Aplicamos el idioma detectado inmediatamente
+setLanguage(currentLang);
+
+// 2. Comprobamos si ya votó
 if(localStorage.getItem('aerko_voted') === 'true') {
-    // Si ya votó, ocultamos Intro y mostramos resultados directos
     introView.classList.add('hidden');
     resultsView.classList.remove('hidden');
-    showResults(); // Carga las stats
+    showResults(); 
 }
-
