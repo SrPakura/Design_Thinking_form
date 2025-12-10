@@ -1,9 +1,9 @@
 const translations = {
     // --- TEXTOS UI ---
     intro_title: { 
-        es: ">_ ENTRADA_REQUERIDA", 
-        en: ">_ INPUT_REQUESTED", 
-        de: ">_ EINGABE_ERFORDERLICH" 
+        es: ">ENTRADA_REQUERIDA", 
+        en: ">INPUT_REQUESTED", 
+        de: ">EINGABE_ERFORDERLICH" 
     },
     intro_desc: { 
         es: "Bienvenido a esta encuesta sobre Nutrición, Entreno y Progreso.\n\nTu participación ayuda a un estudiante de 19 años cuyo profesor le explota como si fuera un robot 🤖.\n\nTe llevará 2 minutos completarla. Tus datos son 100% anónimos.\n\nGracias <3",
@@ -118,5 +118,6 @@ const translations = {
         de: "Danke! Dein Feedback hilft einem Studenten, sein Projekt voranzubringen."
     }
 };
+
 
 
