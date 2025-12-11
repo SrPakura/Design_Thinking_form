@@ -16,97 +16,342 @@ const translations = {
     
     // --- PREGUNTAS ---
     // BLOQUE 1
-    q1_title: { es: "1. ¿En qué punto te encuentras en tu entrenamiento?", en: "1. What is your current training status?", de: "1. Wie ist dein aktueller Trainingsstand?" },
-    q1_opt_a: { es: "Principiante (Semanas/Meses)", en: "Beginner (Weeks/Months)", de: "Anfänger (Wochen/Monate)" },
-    q1_opt_b: { es: "Intermedio (Consistente)", en: "Intermediate (Consistent)", de: "Fortgeschritten (Konsistent)" },
-    q1_opt_c: { es: "Avanzado (Años/Técnico)", en: "Advanced (Years/Technical)", de: "Profi (Jahre/Technisch)" },
+    q1_title: { 
+        es: "1. ¿En qué punto te encuentras en tu entrenamiento/alimentación?", 
+        en: "1. Where are you currently at with your training/nutrition?", 
+        de: "1. Wo stehst du aktuell mit deinem Training/Ernährung?" 
+    },
+    q1_opt_a: { 
+        es: "Principiante: Apenas llevo unas semanas o meses.", 
+        en: "Beginner: Just started a few weeks or months ago.", 
+        de: "Anfänger: Habe erst vor ein paar Wochen/Monaten angefangen." 
+    },
+    q1_opt_b: { 
+        es: "Intermedio: Llevo un tiempo intentando ser consistente.", 
+        en: "Intermediate: Been trying to be consistent for a while.", 
+        de: "Fortgeschritten: Versuche schon länger, konsequent zu sein." 
+    },
+    q1_opt_c: { 
+        es: "Avanzado: Llevo años, entiendo macros y sobrecarga.", 
+        en: "Advanced: Years of experience, I understand macros/overload.", 
+        de: "Profi: Jahre dabei, verstehe Makros und Progression." 
+    },
 
-    q2_title: { es: "2. ¿Qué herramienta usas PRINCIPALMENTE hoy?", en: "2. What is your MAIN tool today?", de: "2. Welches Tool nutzt du hauptsächlich?" },
-    q2_opt_a: { es: "Apps comerciales (MFP, Hevy...)", en: "Commercial Apps", de: "Kommerzielle Apps" },
-    q2_opt_b: { es: "Manual (Excel, Papel)", en: "Manual (Excel, Paper)", de: "Manuell (Excel, Papier)" },
-    q2_opt_c: { es: "Ninguna / Intuición", en: "None / Intuition", de: "Keine / Intuition" },
+    q2_title: { 
+        es: "2. ¿Qué tipo de herramienta usas PRINCIPALMENTE hoy en día?", 
+        en: "2. What tool do you MAINLY use nowadays?", 
+        de: "2. Welches Tool nutzt du heutzutage HAUPTSÄCHLICH?" 
+    },
+    q2_opt_a: { 
+        es: "Apps comerciales (MyFitnessPal, Hevy, LoseIt...)", 
+        en: "Commercial Apps (MyFitnessPal, Hevy, LoseIt...)", 
+        de: "Kommerzielle Apps (MyFitnessPal, Hevy, LoseIt...)" 
+    },
+    q2_opt_b: { 
+        es: "Manual (Excel, Notas, Papel y boli)", 
+        en: "Manual (Excel, Notes, Pen & Paper)", 
+        de: "Manuell (Excel, Notizen, Stift & Papier)" 
+    },
+    q2_opt_c: { 
+        es: "Ninguna / Intuición", 
+        en: "None / Intuition", 
+        de: "Keine / Intuition" 
+    },
 
-    q3_title: { es: "3. ¿En qué categoría has usado MÁS apps?", en: "3. In which category have you used MOST apps?", de: "3. In welcher Kategorie nutzt du Apps am meisten?" },
-    q3_opt_a: { es: "Nutrición (Calorías/Macros)", en: "Nutrition", de: "Ernährung" },
-    q3_opt_b: { es: "Entrenamiento (Series/Reps)", en: "Training", de: "Training" },
-    q3_opt_c: { es: "Progreso (Peso/Fotos)", en: "Progress (Body/Photos)", de: "Fortschritt" },
-    q3_opt_d: { es: "Varias a la vez (Caos)", en: "Multiple at once", de: "Mehrere gleichzeitig" },
-    q3_opt_e: { es: "Ninguna", en: "None", de: "Keine" },
+    q3_title: { 
+        es: "3. ¿En qué categoría has utilizado MÁS apps o herramientas durante tu proceso?", 
+        en: "3. In which category have you used the MOST apps/tools?", 
+        de: "3. In welcher Kategorie hast du die MEISTEN Apps/Tools genutzt?" 
+    },
+    q3_opt_a: { 
+        es: "Nutrición: He probado contadores de calorías/macros.", 
+        en: "Nutrition: Tried calorie/macro counters.", 
+        de: "Ernährung: Habe Kalorien-/Makrozähler probiert." 
+    },
+    q3_opt_b: { 
+        es: "Entrenamiento: Apps para registrar series y reps.", 
+        en: "Training: Apps to log sets and reps.", 
+        de: "Training: Apps zum Loggen von Sätzen/Wdh." 
+    },
+    q3_opt_c: { 
+        es: "Progreso: Apps para peso, medidas o fotos.", 
+        en: "Progress: Apps for weight, measurements, or photos.", 
+        de: "Fortschritt: Apps für Gewicht, Maße oder Fotos." 
+    },
+    q3_opt_d: { 
+        es: "Varias a la vez: Intento gestionar todo (o es un caos).", 
+        en: "Multiple at once: Trying to manage everything (or it's chaos).", 
+        de: "Mehrere gleichzeitig: Versuche alles zu managen (oder Chaos)." 
+    },
+    q3_opt_e: { 
+        es: "Ninguna: Nunca he usado herramientas digitales.", 
+        en: "None: Never used digital tools for this.", 
+        de: "Keine: Habe nie digitale Tools dafür genutzt." 
+    },
 
-    // RAMA A
-    q4a_title: { es: "¿Mayor frustración con apps de nutrición?", en: "Biggest frustration with nutrition apps?", de: "Größter Frust mit Ernährungs-Apps?"},
-    q4a_opt_a: { es: "Tardan demasiado", en: "Too slow", de: "Zu langsam"},
-    q4a_opt_b: { es: "Base de datos con errores", en: "Database errors", de: "Datenbankfehler"},
-    q4a_opt_c: { es: "Ansiedad", en: "Anxiety", de: "Angst"},
-    q5a_title: { es: "¿Usarías registro visual (5 seg) vs pesar exacto?", en: "Visual log (5s) vs weighing?", de: "Visuelles Loggen (5s) vs Wiegen?"},
-    q5a_opt_a: { es: "Sí, velocidad", en: "Yes, speed", de: "Ja, Geschwindigkeit"},
-    q5a_opt_b: { es: "No, exactitud", en: "No, precision", de: "Nein, Präzision"},
-    q6a_title: { es: "¿Ocultar calorías restantes?", en: "Hide remaining calories?", de: "Verbleibende Kalorien ausblenden?"},
-    q6a_opt_a: { es: "Sí, salud mental", en: "Yes, mental health", de: "Ja, psychische Gesundheit"},
-    q6a_opt_b: { es: "No, prefiero datos", en: "No, prefer data", de: "Nein, bevorzuge Daten"},
+    // RAMA A: Nutrición
+    q4a_title: { 
+        es: "¿Cuál ha sido tu mayor frustración al usar apps de nutrición?", 
+        en: "What has been your biggest frustration with nutrition apps?", 
+        de: "Was war dein größter Frust mit Ernährungs-Apps?"
+    },
+    q4a_opt_a: { 
+        es: "Tardan demasiado (demasiados clics).", 
+        en: "Take too long (too many clicks).", 
+        de: "Dauern zu lange (zu viele Klicks)."
+    },
+    q4a_opt_b: { 
+        es: "La base de datos tiene muchos errores.", 
+        en: "The database has many errors.", 
+        de: "Die Datenbank hat viele Fehler."
+    },
+    q4a_opt_c: { 
+        es: "Me genera ansiedad ver números rojos.", 
+        en: "Seeing red numbers gives me anxiety.", 
+        de: "Rote Zahlen verursachen mir Angst/Stress."
+    },
+    
+    q5a_title: { 
+        es: "Si pudieras registrar comida en 5 seg (estimación visual) vs pesar exacto, ¿lo usarías?", 
+        en: "If you could log food in 5s (visual estimate) vs exact weighing, would you use it?", 
+        de: "Würdest du Essen in 5s loggen (visuell geschätzt) statt exakt zu wiegen?"
+    },
+    q5a_opt_a: { 
+        es: "Sí, prefiero velocidad.", 
+        en: "Yes, I prefer speed.", 
+        de: "Ja, ich bevorzuge Geschwindigkeit."
+    },
+    q5a_opt_b: { 
+        es: "No, necesito el dato exacto.", 
+        en: "No, I need exact data.", 
+        de: "Nein, ich brauche exakte Daten."
+    },
 
-    // RAMA B
-    q4b_title: { es: "¿Cómo detectas desequilibrios?", en: "How do you spot imbalances?", de: "Wie erkennst du Ungleichgewichte?"},
-    q4b_opt_a: { es: "No lo sé", en: "Don't know", de: "Weiß nicht"},
-    q4b_opt_b: { es: "A ojo", en: "By eye", de: "Nach Augenmaß"},
-    q4b_opt_c: { es: "Uso app", en: "Use app", de: "Nutze App"},
-    q5b_title: { es: "¿Utilidad aviso: 'Descuidas deltoides'?", en: "Utility warning: 'Neglecting delts'?", de: "Nutzen Warnung: 'Vernachlässigst Deltas'?"},
-    q5b_opt_a: { es: "Muy útil", en: "Very useful", de: "Sehr nützlich"},
-    q5b_opt_b: { es: "Interesante", en: "Interesting", de: "Interessant"},
-    q5b_opt_c: { es: "Me da igual", en: "Don't care", de: "Egal"},
-    q6b_title: { es: "¿Ver predicción fuerza futura?", en: "See future strength?", de: "Zukünftige Stärke sehen?"},
-    q6b_opt_a: { es: "Sí", en: "Yes", de: "Ja"},
-    q6b_opt_b: { es: "Indiferente", en: "Indifferent", de: "Egal"},
+    q6a_title: { 
+        es: "¿Te gustaría una opción para ocultar calorías restantes y solo ver si cumpliste?", 
+        en: "Would you like an option to hide remaining calories and just see if you hit goals?", 
+        de: "Möchtest du verbleibende Kalorien ausblenden und nur Zielerreichung sehen?"
+    },
+    q6a_opt_a: { 
+        es: "Sí, por salud mental.", 
+        en: "Yes, for mental health.", 
+        de: "Ja, für die psychische Gesundheit."
+    },
+    q6a_opt_b: { 
+        es: "No, prefiero ver los datos.", 
+        en: "No, I prefer seeing the data.", 
+        de: "Nein, ich sehe lieber die Daten."
+    },
 
-    // RAMA C
-    q4c_title: { es: "¿Dónde guardas fotos progreso?", en: "Where keep progress photos?", de: "Wo speicherst du Fortschrittsfotos?"},
-    q4c_opt_a: { es: "Galería", en: "Gallery", de: "Galerie"},
-    q4c_opt_b: { es: "Carpeta oculta", en: "Hidden folder", de: "Versteckter Ordner"},
-    q4c_opt_c: { es: "Nube", en: "Cloud", de: "Cloud"},
-    q4c_opt_d: { es: "No tomo", en: "Don't take", de: "Mache keine"},
-    q5c_title: { es: "¿Mayor preocupación datos?", en: "Biggest data concern?", de: "Größte Datensorge?"},
-    q5c_opt_a: { es: "Venta terceros", en: "Sold to 3rd party", de: "Verkauf an Dritte"},
-    q5c_opt_b: { es: "IAs sin permiso", en: "AI without consent", de: "KI ohne Zustimmung"},
-    q5c_opt_c: { es: "Hackeos", en: "Hacks", de: "Hacks"},
-    q5c_opt_d: { es: "Nada", en: "Nothing", de: "Nichts"},
-    q6c_title: { es: "¿Si fuera 100% Local subirías más?", en: "If 100% Local, upload more?", de: "Wenn 100% lokal, mehr hochladen?"},
-    q6c_opt_a: { es: "Sí", en: "Yes", de: "Ja"},
-    q6c_opt_b: { es: "Tal vez", en: "Maybe", de: "Vielleicht"},
-    q6c_opt_c: { es: "No importa", en: "Don't care", de: "Egal"},
+    // RAMA B: Entrenamiento
+    q4b_title: { 
+        es: "Cuando diseñas una rutina, ¿cómo sabes si hay desequilibrio muscular?", 
+        en: "When designing a routine, how do you spot muscle imbalances?", 
+        de: "Wie erkennst du beim Erstellen einer Routine muskuläre Ungleichgewichte?"
+    },
+    q4b_opt_a: { 
+        es: "No lo sé / No me fijo.", 
+        en: "I don't know / I don't check.", 
+        de: "Weiß nicht / Achte nicht darauf."
+    },
+    q4b_opt_b: { 
+        es: "Lo calculo a ojo.", 
+        en: "I estimate it by eye.", 
+        de: "Ich schätze es nach Augenmaß."
+    },
+    q4b_opt_c: { 
+        es: "Uso una app que me avisa.", 
+        en: "I use an app that warns me.", 
+        de: "Ich nutze eine App, die mich warnt."
+    },
 
-    // RAMA D
-    q4d_title: { es: "¿Cuántas herramientas usas?", en: "Total tools?", de: "Anzahl Tools?"},
-    q4d_opt_a: { es: "1", en: "1", de: "1"},
-    q4d_opt_b: { es: "2 - 3", en: "2 - 3", de: "2 - 3"},
-    q4d_opt_c: { es: "4+", en: "4+", de: "4+"},
-    q5d_title: { es: "¿Dejado apps por no exportar?", en: "Left apps due to no export?", de: "App verlassen wegen kein Export?"},
-    q5d_opt_a: { es: "Sí", en: "Yes", de: "Ja"},
-    q5d_opt_b: { es: "Preocupa", en: "Concerns me", de: "Besorgt mich"},
-    q5d_opt_c: { es: "No pensado", en: "Haven't thought", de: "Nicht gedacht"},
-    q6d_title: { es: "¿Pago único por TODO?", en: "One-time payment for ALL?", de: "Einmalzahlung für ALLES?"},
-    q6d_opt_a: { es: "Sí", en: "Yes", de: "Ja"},
-    q6d_opt_b: { es: "Suscripción barata", en: "Cheap sub", de: "Günstiges Abo"},
-    q6d_opt_c: { es: "Solo gratis", en: "Free only", de: "Nur kostenlos"},
+    q5b_title: { 
+        es: "¿Qué tan útil sería que la app te dijera: 'Estás descuidando el deltoides posterior'?", 
+        en: "How useful would it be if the app told you: 'You are neglecting your rear delts'?", 
+        de: "Wie nützlich wäre es, wenn die App sagt: 'Du vernachlässigst die hinteren Deltas'?"
+    },
+    q5b_opt_a: { 
+        es: "Muy útil.", 
+        en: "Very useful.", 
+        de: "Sehr nützlich."
+    },
+    q5b_opt_b: { 
+        es: "Interesante, pero no vital.", 
+        en: "Interesting, but not vital.", 
+        de: "Interessant, aber nicht vital."
+    },
+    q5b_opt_c: { 
+        es: "Me da igual.", 
+        en: "I don't care.", 
+        de: "Ist mir egal."
+    },
 
-    // RAMA E
-    q4e_title: { es: "¿Por qué no usas apps?", en: "Why don't use apps?", de: "Warum keine Apps?"},
-    q4e_opt_a: { es: "Pereza", en: "Lazy", de: "Faulheit"},
-    q4e_opt_b: { es: "Obsesión", en: "Obsession", de: "Obsession"},
-    q4e_opt_c: { es: "Intuición", en: "Intuition", de: "Intuition"},
-    q5e_title: { es: "¿Usarías en futuro?", en: "Use in future?", de: "In Zukunft nutzen?"},
-    q5e_opt_a: { es: "Sí", en: "Yes", de: "Ja"},
-    q5e_opt_b: { es: "Puede", en: "Maybe", de: "Vielleicht"},
-    q5e_opt_c: { es: "Nunca", en: "Never", de: "Niemals"},
+    q6b_title: { 
+        es: "¿Te interesa ver predicciones de tu fuerza futura basadas en tus datos actuales?", 
+        en: "Are you interested in seeing future strength predictions based on current data?", 
+        de: "Interessieren dich Vorhersagen deiner zukünftigen Stärke basierend auf Daten?"
+    },
+    q6b_opt_a: { 
+        es: "Sí, me motivaría.", 
+        en: "Yes, it would motivate me.", 
+        de: "Ja, würde mich motivieren."
+    },
+    q6b_opt_b: { 
+        es: "No, me es indiferente.", 
+        en: "No, I'm indifferent.", 
+        de: "Nein, ist mir gleichgültig."
+    },
+
+    // RAMA C: Progreso
+    q4c_title: { 
+        es: "¿Dónde guardas tus fotos de progreso físico?", 
+        en: "Where do you keep your progress photos?", 
+        de: "Wo speicherst du deine Fortschrittsfotos?"
+    },
+    q4c_opt_a: { 
+        es: "Galería normal del móvil.", 
+        en: "Normal phone gallery.", 
+        de: "Normale Handy-Galerie."
+    },
+    q4c_opt_b: { 
+        es: "Carpeta Oculta / Privada.", 
+        en: "Hidden / Private folder.", 
+        de: "Versteckter / Privater Ordner."
+    },
+    q4c_opt_c: { 
+        es: "App en la nube.", 
+        en: "Cloud app.", 
+        de: "Cloud-App."
+    },
+    q4c_opt_d: { 
+        es: "No tomo fotos de progreso.", 
+        en: "I don't take progress photos.", 
+        de: "Ich mache keine Fortschrittsfotos."
+    },
+
+    q5c_title: { 
+        es: "¿Qué te preocupa más sobre tus datos de salud y fotos?", 
+        en: "What concerns you most about your health data and photos?", 
+        de: "Was besorgt dich am meisten bei deinen Gesundheitsdaten/Fotos?"
+    },
+    q5c_opt_a: { 
+        es: "Venta a terceros/aseguradoras.", 
+        en: "Sale to 3rd parties/insurers.", 
+        de: "Verkauf an Dritte/Versicherer."
+    },
+    q5c_opt_b: { 
+        es: "Uso para entrenar IAs sin permiso.", 
+        en: "Used to train AI without consent.", 
+        de: "Nutzung für KI-Training ohne Erlaubnis."
+    },
+    q5c_opt_c: { 
+        es: "Hackeos de la nube.", 
+        en: "Cloud hacks.", 
+        de: "Cloud-Hacks."
+    },
+    q5c_opt_d: { 
+        es: "Nada.", 
+        en: "Nothing.", 
+        de: "Nichts."
+    },
+
+    q6c_title: { 
+        es: "Si la app fuera 100% Local (sin nube), ¿subirías más fotos?", 
+        en: "If the app was 100% Local (no cloud), would you upload more photos?", 
+        de: "Wenn die App 100% lokal wäre (keine Cloud), würdest du mehr Fotos hochladen?"
+    },
+    q6c_opt_a: { 
+        es: "Sí, me sentiría seguro.", 
+        en: "Yes, I'd feel safe.", 
+        de: "Ja, ich würde mich sicher fühlen."
+    },
+    q6c_opt_b: { 
+        es: "Tal vez.", 
+        en: "Maybe.", 
+        de: "Vielleicht."
+    },
+    q6c_opt_c: { 
+        es: "No me importa dónde estén.", 
+        en: "I don't care where they are.", 
+        de: "Ist mir egal, wo sie sind."
+    },
+
+    // RAMA D: Ecosistema
+    q4d_title: { 
+        es: "¿Cuántas herramientas usas en total para gestionar tu fitness?", 
+        en: "How many tools in total do you use to manage your fitness?", 
+        de: "Wie viele Tools nutzt du insgesamt für dein Fitness-Management?"
+    },
+    q4d_opt_a: { es: "Solo 1.", en: "Just 1.", de: "Nur 1." },
+    q4d_opt_b: { es: "2 o 3.", en: "2 or 3.", de: "2 oder 3." },
+    q4d_opt_c: { es: "4 o más.", en: "4 or more.", de: "4 oder mehr." },
+
+    q5d_title: { 
+        es: "¿Alguna vez has dejado una app porque no podías exportar TUS datos?", 
+        en: "Have you ever left an app because you couldn't export YOUR data?", 
+        de: "Hast du je eine App verlassen, weil du DEINE Daten nicht exportieren konntest?"
+    },
+    q5d_opt_a: { es: "Sí.", en: "Yes.", de: "Ja." },
+    q5d_opt_b: { es: "No, pero me preocupa.", en: "No, but it worries me.", de: "Nein, aber es besorgt mich." },
+    q5d_opt_c: { es: "No lo había pensado.", en: "Hadn't thought about it.", de: "Habe nicht darüber nachgedacht." },
+
+    q6d_title: { 
+        es: "¿Pagarías un precio único por tener TODO (Nutrición+Gym+Fotos) integrado?", 
+        en: "Would you pay a one-time price for EVERYTHING (Nutrition+Gym+Photos) integrated?", 
+        de: "Würdest du einen Einmalpreis zahlen, um ALLES integriert zu haben?"
+    },
+    q6d_opt_a: { 
+        es: "Sí.", 
+        en: "Yes.", 
+        de: "Ja." 
+    },
+    q6d_opt_b: { 
+        es: "Prefiero suscripción barata.", 
+        en: "I prefer a cheap subscription.", 
+        de: "Bevorzuge günstiges Abo." 
+    },
+    q6d_opt_c: { 
+        es: "Solo uso gratis con anuncios.", 
+        en: "I only use free with ads.", 
+        de: "Nutze nur gratis mit Werbung." 
+    },
+
+    // RAMA E: No-Users
+    q4e_title: { 
+        es: "¿Por qué no sueles usar apps específicas?", 
+        en: "Why don't you usually use specific apps?", 
+        de: "Warum nutzt du normalerweise keine spezifischen Apps?"
+    },
+    q4e_opt_a: { es: "Me quita mucho tiempo / Pereza.", en: "Takes too much time / Lazy.", de: "Kostet zu viel Zeit / Faulheit." },
+    q4e_opt_b: { es: "Me genera obsesión.", en: "Creates obsession.", de: "Macht mich besessen." },
+    q4e_opt_c: { es: "Prefiero mi intuición.", en: "Prefer my intuition.", de: "Bevorzuge meine Intuition." },
+
+    q5e_title: { 
+        es: "¿Estarías dispuesto a usar una app de fitness en el futuro?", 
+        en: "Would you be willing to use a fitness app in the future?", 
+        de: "Wärst du bereit, in Zukunft eine Fitness-App zu nutzen?"
+    },
+    q5e_opt_a: { es: "Sí, si se adapta a mí.", en: "Yes, if it fits me.", de: "Ja, wenn sie zu mir passt." },
+    q5e_opt_b: { es: "Puede, si merece la pena.", en: "Maybe, if it's worth it.", de: "Vielleicht, wenn es sich lohnt." },
+    q5e_opt_c: { es: "No, nunca.", en: "No, never.", de: "Nein, niemals." },
 
     // CIERRE
-    q7_title: { es: "Open Source, Local-First. ¿Probabilidad de probarla (1-10)?", en: "Probability to try (1-10)?", de: "Wahrscheinlichkeit zu testen (1-10)?"},
-    q8_title: { es: "Si pudieras pedir una función mágica, ¿cuál sería?", en: "One magic feature request?", de: "Ein magisches Feature?"},
+    q7_title: { 
+        es: "Imagina: Open Source, Local-First, todo unificado. ¿Probabilidad de probarla (1-10)?", 
+        en: "Imagine: Open Source, Local-First, all unified. Probability to try (1-10)?", 
+        de: "Stell dir vor: Open Source, Local-First, alles vereint. Wahrscheinlichkeit zu testen (1-10)?"
+    },
+    q8_title: { 
+        es: "Si pudieras pedir una sola función mágica a esta app ideal, ¿cuál sería?", 
+        en: "If you could ask for one magic feature in this ideal app, what would it be?", 
+        de: "Wenn du dir ein magisches Feature für diese App wünschen könntest, welches wäre es?"
+    },
     other: { es: "Otro...", en: "Other...", de: "Andere..." },
     
     // --- RESULTADOS TRADUCIDOS ---
     results_title: { es: "ESTADÍSTICAS: NIVEL", en: "STATS: TRAINING LEVEL", de: "STATISTIK: NIVEAU" },
     res_beginner: { es: "PRINCIPIANTE", en: "BEGINNER", de: "ANFÄNGER" },
-    res_inter: { es: "INTERMEDIO", en: "INTERMEDIATE", de: "FORTGESCHRITTEN" },
+    res_inter: { es: "INTERMEDIO", en: "INTERMEDIO", de: "FORTGESCHRITTEN" },
     res_adv: { es: "AVANZADO", en: "ADVANCED", de: "PROFI" },
     res_footer: { es: "BASADO EN LAS ÚLTIMAS", en: "BASED ON LAST", de: "BASIEREND AUF DEN LETZTEN" },
     res_entries: { es: "ENTRADAS", en: "ENTRIES", de: "EINTRÄGEN" },
@@ -118,6 +363,3 @@ const translations = {
         de: "Danke! Dein Feedback hilft einem Studenten, sein Projekt voranzubringen."
     }
 };
-
-
-
