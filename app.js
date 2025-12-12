@@ -230,10 +230,12 @@ async function showResults() {
     resultsView.classList.remove('hidden');
     const t = translations; 
     
+    // Inicializamos contadores por si falla la base de datos
     let counts = { a:1, b:1, c:1, total:3 };
     
     try {
         if(db) {
+            // Leemos las ultimas 100 respuestas para la pantalla de "gracias"
             const q = query(collection(db, "survey_responses"), orderBy("timestamp", "desc"), limit(100));
             const querySnapshot = await getDocs(q);
             if(!querySnapshot.empty) {
@@ -276,6 +278,11 @@ async function showResults() {
                 > ${t.final_msg[currentLang]}
             </p>
         </div>
+
+        <!-- 👇👇👇 AQUÍ ESTÁ EL BOTÓN NUEVO 👇👇👇 -->
+        <a href="stats.html" class="btn-next" style="display:block; text-align:center; text-decoration:none; margin-top: 2rem;">
+            [ VIEW_FULL_DATASET ]
+        </a>
     `;
 
     document.getElementById('stats-content').innerHTML = html;
@@ -293,3 +300,4 @@ if(localStorage.getItem('aerko_voted') === 'true') {
     resultsView.classList.remove('hidden');
     showResults(); 
 }
+
