@@ -301,3 +301,38 @@ if(localStorage.getItem('aerko_voted') === 'true') {
     showResults(); 
 }
 
+// ==========================================
+// TRAMPILLA SECRETA PARA DESCARGAR DATOS
+// ==========================================
+window.descargarDatos = async () => {
+    console.log("⏳ Leyendo base de datos... espera...");
+    
+    // 1. Pedimos todos los datos a Firebase
+    const todasLasRespuestas = [];
+    try {
+        const querySnapshot = await getDocs(collection(db, "survey_responses"));
+        
+        querySnapshot.forEach((doc) => {
+            // Guardamos cada respuesta en la lista
+            todasLasRespuestas.push(doc.data());
+        });
+
+        console.log(`✅ ¡Éxito! Se han encontrado ${todasLasRespuestas.length} respuestas.`);
+
+        // 2. Convertimos los datos a texto JSON (texto legible)
+        const datosTexto = JSON.stringify(todasLasRespuestas, null, 2);
+
+        // 3. Creamos un archivo invisible y lo descargamos
+        const archivo = new Blob([datosTexto], { type: 'application/json' });
+        const enlace = document.createElement('a');
+        enlace.href = URL.createObjectURL(archivo);
+        enlace.download = "BASE_DE_DATOS_AERKO.json";
+        document.body.appendChild(enlace);
+        enlace.click();
+        document.body.removeChild(enlace);
+
+    } catch (error) {
+        console.error("❌ Error descargando:", error);
+        alert("Error: Mira la consola (F12) para ver qué pasó.");
+    }
+};
