@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AERKO_ // DATASET</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Librería para las gráficas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="main-container">
+        <header>
+            <div class="brand"><a href="index.html" style="text-decoration:none; color:inherit;">AERKO_</a> // DATA</div>
+            <div class="lang-selector">
+                <button onclick="setStatsLanguage('es')">ES</button>
+                <button onclick="setStatsLanguage('en')">EN</button>
+                <button onclick="setStatsLanguage('de')">DE</button>
+            </div>
+        </header>
+
+        <div class="content-box">
+            <h1 class="question-title">GLOBAL_STATISTICS</h1>
+            
+            <!-- Menú de Ramas -->
+            <div id="branch-menu" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:2rem;">
+                <button class="option-btn selected" onclick="filterCharts('all')">ALL</button>
+                <button class="option-btn" onclick="filterCharts('nutri')">NUTRI</button>
+                <button class="option-btn" onclick="filterCharts('train')">TRAIN</button>
+                <button class="option-btn" onclick="filterCharts('prog')">PROG</button>
+                <button class="option-btn" onclick="filterCharts('eco')">ECO</button>
+            </div>
+
+            <div id="loading-stats">READING_DATABASE...</div>
+            
+            <!-- Aquí se inyectarán las gráficas -->
+            <div id="charts-container" class="charts-grid"></div>
+            
+            <br>
+            <a href="index.html" class="btn-next" style="display:block; text-align:center; text-decoration:none;">
+                < BACK_TO_FORM
+            </a>
+        </div>
+    </div>
+
+    <script src="translations.js"></script>
+    <script type="module" src="stats.js"></script>
+</body>
+</html>
