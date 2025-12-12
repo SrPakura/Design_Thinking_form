@@ -165,3 +165,40 @@ textarea { width: 100%; padding: 10px; border: 2px solid var(--ink-black); font-
 .stat-item { margin-bottom: 1rem; }
 .stat-bar-bg { width: 100%; background: #ddd; height: 20px; border: 2px solid var(--ink-black); }
 .stat-bar-fill { height: 100%; background: var(--acid-green); }
+
+/* --- ESTILOS PARA LA PÁGINA DE ESTADÍSTICAS --- */
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+/* En pantallas grandes, 2 columnas */
+@media (min-width: 600px) {
+    .charts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.chart-card {
+    background: white;
+    border: 1px solid var(--ink-black);
+    padding: 1rem;
+    box-shadow: 4px 4px 0px #ddd;
+}
+
+.chart-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--acid-green);
+    padding-bottom: 5px;
+    min-height: 50px; /* Para que alineen aunque el título sea largo */
+}
+
+/* Ajuste visual para el menú de filtros */
+#branch-menu .option-btn {
+    padding: 0.5rem 1rem; /* Más pequeños que los botones de preguntas */
+    font-size: 0.8rem;
+}
