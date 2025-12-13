@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>UPLOADER DE DATOS v2.0</title>
+    <style>
+        body { font-family: monospace; background: #111; color: #ccc; text-align: center; padding-top: 5rem; }
+        h1 { color: #fff; }
+        #uploader-box { background: #222; padding: 2rem; border: 1px solid #444; display: inline-block; }
+        input[type="file"] { margin-bottom: 1rem; color: #ccc; }
+        button { font-size: 1.5rem; padding: 1rem 2rem; cursor: pointer; background: #0f0; border: none; transition: background 0.2s; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { color: #ff0; margin-top: 1rem; min-height: 20px; }
+    </style>
+</head>
+<body>
+    <div id="uploader-box">
+        <h1>Selecciona el archivo .json para subir</h1>
+        <input type="file" id="json-file-input" accept=".json">
+        <br>
+        <button id="upload-button" disabled>[ Subir a Firebase ]</button>
+        <p id="status">Esperando archivo...</p>
+    </div>
+
+    <!-- Importamos nuestro script y el de Firebase -->
+    <script type="module" src="uploader.js"></script>
+</body>
+</html>
